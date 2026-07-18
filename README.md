@@ -6,16 +6,24 @@ Resolvi criar uma página utilizando os conhecimentos que tenho: HTML + CSS + Ja
 
 Estrutura
 
-├── index.html      → estrutura das seções
-├── css/style.css   → design + estilos
-├── js/script.js    → interações
+├── index.html - estrutura das seções
+├── css/style.css - design + estilos
+├── js/script.js - interações
 
 A página conta também com alguns efeitos visuais:
 
-O sublinhado (_) piscando, utilizei o componente @keyframe e blink que diz "na metade do tempo, fique invisível", aplicada em loop infinito com trocas instantâneas, fazendo parecer um cursor piscando.
+buildGrid / animateAmbientGrid / drawTrendLine — geram e animam o grid de commits. No hero, células acendem/apagam aleatoriamente a cada 220ms (setInterval). Na seção final, um IntersectionObserver dispara
+drawTrendLine quando a seção entra na viewport, acendendo as células que formam a curva ascendente.
 
-Trecho que digita as profissões: Utilizei o componente setTimeout recursivo, fazendo com que a função chame ela mesma de novo depois de um tempinho, controlando um "estado" (charIndex, deleting) que decide se está escrevendo ou apagando.
+Efeito de digitação (typeLoop) — cicla profissões anteriores dos alunos ("motorista de app", "vendedor"...) até chegar em "você", reforçando que qualquer pessoa pode migrar de carreira. Usa setTimeout
+recursivo controlando um índice de caractere (charIndex) e um estado (deleting) pra saber se está escrevendo ou apagando.
 
-Um efeito de luz utilizando o componente de evento mousemove + variáveis CSS (--mx, --my). O JS só calcula a posição do mouse em porcentagem e guarda nessas variáveis; quem desenha o círculo de luz é o CSS (radial-gradient), que já está "escutando" essas variáveis.
+Lanterna no hero — no mousemove, calcula a posição do cursor em porcentagem (getBoundingClientRect) e guarda em duas variáveis CSS (--mx, --my). O CSS usa essas variáveis dentro de um radial-gradient
+pra desenhar o círculo de luz seguindo o mouse.
 
-Por mim, os quadrinhos de fundo preenchendo cor, utilizei o componente setInterval (repete a cada 220 milissegundos) + troca de className. O grid inteiro é um monte de <div> gerados por JS (buildGrid); a cada intervalo, um quadrado aleatório apaga e outro acende, dando aquela sensação de "atividade" contínua, tipo o gráfico de contribuições do GitHub.
+Scroll reveal genérico — um único IntersectionObserver observa qualquer elemento com a classe .reveal e adiciona .is-visible quando entra na tela (fade + slide via CSS transition, não JS animando estilo
+direto — mais performático).
+
+Contadores animados — anima os números da seção "quem somos" com requestAnimationFrame e easing ease-out cubic, disparado só quando a seção é vista.
+
+Menu hamburguer — clique alterna a classe is-active no próprio botão; o CSS gira/esconde as 3 barrinhas formando um X.
