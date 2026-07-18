@@ -14,6 +14,31 @@ window.addEventListener('scroll', () => {
 });
 
 /* --------------------------------------------
+   1.1 MENU HAMBURGUER — clique alterna a classe
+   'menu-open' no body. O resto (o X, o painel
+   descendo) é tudo feito por CSS reagindo a essa classe.
+   -------------------------------------------- */
+const navBurger = document.getElementById('navBurger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+if (navBurger && mobileMenu) {
+  navBurger.addEventListener('click', () => {
+    const isOpen = document.body.classList.toggle('menu-open');
+    navBurger.classList.toggle('is-active', isOpen);
+    navBurger.setAttribute('aria-expanded', isOpen);
+  });
+
+  // fecha o menu automaticamente quando a pessoa clica em algum link dele
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.body.classList.remove('menu-open');
+      navBurger.classList.remove('is-active');
+      navBurger.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+/* --------------------------------------------
    2. COMMIT GRID — o elemento de assinatura.
    Gera um grid de "commits" (como o de contribuições
    do GitHub) que acende em ondas aleatórias no hero,

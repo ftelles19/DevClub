@@ -126,8 +126,78 @@ a { color: inherit; text-decoration: none; }
 }
 .nav-cta:hover { border-color: var(--amber); color: var(--amber); }
 
+/* botão hamburguer — 3 barras que viram um X quando o menu abre.
+   escondido em telas grandes, só aparece no responsivo. */
+.nav-burger {
+  position: relative;
+  z-index: 101;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-burger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+/* quando o JS adiciona .is-active no PRÓPRIO botão (não no body),
+   a barra do meio some e as outras duas giram 45° formando um X.
+   Fazer isso direto no botão (em vez de depender de "body.menu-open ...")
+   evita qualquer disputa de prioridade com outras regras do CSS. */
+.nav-burger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.is-active span:nth-child(2) { opacity: 0; }
+.nav-burger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* painel do menu mobile — fica escondido acima da tela (translateY(-100%))
+   e desce suavemente quando o body ganha a classe .menu-open */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 99;
+  flex-direction: column;
+  gap: 4px;
+  padding: 96px 24px 32px;
+  background: rgba(11, 14, 26, 0.98);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  transform: translateY(-100%);
+  transition: transform 0.35s ease;
+}
+.mobile-menu a {
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+}
+.mobile-menu a:hover { color: var(--text); }
+.mobile-menu-cta {
+  margin-top: 12px;
+  text-align: center;
+  color: var(--amber) !important;
+  border: 1px solid var(--amber) !important;
+  border-radius: 100px;
+}
+body.menu-open .mobile-menu {
+  transform: translateY(0);
+}
+
 @media (max-width: 760px) {
   .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-burger { display: flex; }
+  .mobile-menu { display: flex; }
 }
 
 /* ============================================
